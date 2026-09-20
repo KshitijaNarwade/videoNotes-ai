@@ -1,6 +1,7 @@
 import { YoutubeTranscript } from "youtube-transcript";
 
 export interface TranscriptItem {
+  // this TrasctiptItem may have the trascritp text or the caption text
   text: string;
   start: number;
   duration: number;
@@ -14,7 +15,7 @@ export interface YouTubeMetadata {
 
 export const extractYouTubeId = (url: string): string | null => {
   try {
-    const parsedUrl = new URL(url);
+    const parsedUrl = new URL(url); // check if the provided URL is valid or not.[and this new URL(url) wii provide you parsedUrl.hostname, parsedUrl.pathname, parsedUrl.searchParams]
 
     // https://youtu.be/VIDEO_ID
     if (parsedUrl.hostname === "youtu.be") {
@@ -51,6 +52,7 @@ export const extractYouTubeId = (url: string): string | null => {
   }
 };
 
+//Promise<YouTubeMetadata> this means that this function will eventually return the YouTubeMetadata object.
 export const getYouTubeMetadata = async (
   videoId: string,
 ): Promise<YouTubeMetadata> => {
@@ -58,6 +60,7 @@ export const getYouTubeMetadata = async (
     `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`,
   );
 
+  // HTTP 200 -> respose.ok = true : HTTP 401 -> response.ok = false : HTTP 500 -> respose.ok = false
   if (!response.ok) {
     throw new Error("Unable to fetch YouTube video metadata");
   }

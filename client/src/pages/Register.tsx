@@ -1,8 +1,9 @@
 import { useState } from "react";
-import type { FormEvent } from "react";
+import type { FormEvent } from "react"; //The FormEvent tells the TypeScript that the given a formEvent type. just like the let num:number;
 import { Link, useNavigate } from "react-router-dom";
 
 import api from "../services/api";
+import { isAxiosError } from "axios";
 
 function Register() {
   const navigate = useNavigate();
@@ -32,8 +33,10 @@ function Register() {
       localStorage.setItem("user", JSON.stringify(response.data.user));
 
       navigate("/dashboard");
-    } catch (error: any) {
-      setError(error.response?.data?.message || "Registration failed");
+    } catch (error: unknown) {
+      if (isAxiosError(error)) {
+        setError(error.response?.data?.message || "Registration failed");
+      }
     } finally {
       setLoading(false);
     }

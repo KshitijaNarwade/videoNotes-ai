@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import VideoWorkspace from "./pages/VideoWorkspace";
+import AppLayout from "./layout/AppLayout";
 
 function App() {
   return (
@@ -15,9 +16,10 @@ function App() {
         <Route path="/login" element={<Login />} />
 
         <Route path="/register" element={<Register />} />
-
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/videos/:id" element={<VideoWorkspace />} />
+        <Route element={<AppLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/videos/:id" element={<VideoWorkspace />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

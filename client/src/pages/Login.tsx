@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../services/api";
+import { isAxiosError } from "axios";
 
 function Login() {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  //here the FormEvent tells TypeScript that the 'e' parameter will be a React form event
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -29,8 +31,10 @@ function Login() {
       localStorage.setItem("user", JSON.stringify(response.data.user));
 
       navigate("/dashboard");
-    } catch (error: any) {
-      setError(error.response?.data?.message || "Login failed");
+    } catch (error: unknown) {
+      if (isAxiosError(error)) {
+        setError(error.response?.data?.message || "Login failed");
+      }
     } finally {
       setLoading(false);
     }

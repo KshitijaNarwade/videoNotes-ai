@@ -55,37 +55,83 @@ const videoAnalysisSchema = z.object({
   ),
 });
 
-const buildAnalysisPrompt = (transcript: string): string => {
+// const buildAnalysisPrompt = (transcript: string, language:string): string => {
+//   return `
+// You are an expert educational content analyst.
+
+// Analyze the following YouTube video transcript.
+
+// Generate all learning material in ${language}.
+
+// Your task is to convert the transcript into
+// structured learning material.
+
+// IMPORTANT RULES:
+
+// 1. Use ONLY information contained in the transcript.
+// 2. Do not invent facts.
+// 3. Preserve useful timestamps.
+// 4. Make notes useful for studying.
+// 5. Keep explanations clear and technically accurate.
+// 6. Generate useful flashcards.
+// 7. Generate exactly 10 quiz questions.
+// 8. Each quiz question must have exactly 4 options.
+// 9. correctAnswer must exactly match one of the options.
+// 10. Chapters should contain meaningful sections.
+// 11. Do not reproduce the entire transcript.
+
+// TRANSCRIPT:
+
+// ${transcript}
+// `;
+// };
+
+const buildAnalysisPrompt = (transcript: string, language: string): string => {
   return `
+
 You are an expert educational content analyst.
 
 Analyze the following YouTube video transcript.
 
-Your task is to convert the transcript into
-structured learning material.
+Generate all learning material in ${language}.
+
+The following content must be generated in ${language}:
+- Summary
+- Chapter titles
+- Chapter descriptions
+- Notes
+- Key concepts and explanations
+- Flashcard questions and answers
+- Quiz questions
+- Quiz options
+- Quiz explanations
 
 IMPORTANT RULES:
 
 1. Use ONLY information contained in the transcript.
-2. Do not invent facts.
-3. Preserve useful timestamps.
+2. Do not invent facts or information.
+3. Preserve useful timestamps from the transcript.
 4. Make notes useful for studying.
 5. Keep explanations clear and technically accurate.
-6. Generate useful flashcards.
+6. Generate useful flashcards based only on the transcript.
 7. Generate exactly 10 quiz questions.
 8. Each quiz question must have exactly 4 options.
 9. correctAnswer must exactly match one of the options.
-10. Chapters should contain meaningful sections.
+10. Chapters should contain meaningful sections from the video.
 11. Do not reproduce the entire transcript.
+12. Keep programming keywords, function names, variable names, library names, API names, commands, and code in their original form where appropriate.
+13. Translate natural-language explanations, but do not unnecessarily translate technical terms or code.
+14. Maintain the same JSON structure required by the response schema.
 
 TRANSCRIPT:
 
 ${transcript}
+
 `;
 };
 
-export const analyzeVideo = async (transcript: string) => {
-  const prompt = buildAnalysisPrompt(transcript);
+export const analyzeVideo = async (transcript: string, language: string) => {
+  const prompt = buildAnalysisPrompt(transcript, language);
 
   const response = await ai.models.generateContent({
     model: process.env.GEMINI_MODEL || "gemini-2.5-flash",
@@ -93,8 +139,9 @@ export const analyzeVideo = async (transcript: string) => {
     contents: prompt,
 
     config: {
-      responseMimeType: "application/json",
+      responseMimeType: "application/json", // you are telling the gemini to return the response as Json
 
+      // responseSchema : you are telling the Gemini what structure the response should follow.
       responseSchema: {
         type: "object",
 
