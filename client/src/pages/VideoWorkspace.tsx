@@ -453,7 +453,7 @@ const VideoWorkspace = () => {
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
-                      className={`flex shrink-0 items-center gap-2 border-b-2 px-4 py-4 text-sm font-medium transition ${
+                      className={`flex shrink-0 items-center gap-2 border-b-2 px-4 py-4 text-sm font-medium transition cursor-pointer ${
                         activeTab === tab.id
                           ? "border-indigo-500 text-white"
                           : "border-transparent text-slate-500 hover:text-slate-300"

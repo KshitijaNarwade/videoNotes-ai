@@ -111,7 +111,7 @@ function Flashcards({ flashcards = [] }: FlashcardsProps) {
         {/* ANSWER / SHOW ANSWER */}
 
         {showAnswer ? (
-          <div className="mt-10 border-t border-slate-800 pt-7">
+          <div className="mt-4 border-t border-slate-800 pt-7">
             <div className="flex items-center justify-between">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400">
                 Answer
@@ -119,7 +119,7 @@ function Flashcards({ flashcards = [] }: FlashcardsProps) {
 
               <button
                 onClick={handleReset}
-                className="flex items-center gap-1.5 text-xs font-medium text-slate-500 transition hover:text-slate-300"
+                className="flex items-center gap-1.5 text-xs font-medium text-slate-500 transition hover:text-slate-300 cursor-pointer"
               >
                 <RotateCcw size={13} />
                 Hide
@@ -134,7 +134,7 @@ function Flashcards({ flashcards = [] }: FlashcardsProps) {
           <div className="mt-10 flex justify-center">
             <button
               onClick={() => setShowAnswer(true)}
-              className="rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-indigo-500"
+              className="rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-indigo-500 cursor-pointer"
             >
               Show Answer
             </button>

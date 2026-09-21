@@ -48,7 +48,7 @@ export default function Navbar() {
           <button
             onClick={logout}
             title="Logout"
-            className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition hover:bg-white/5 hover:text-red-400"
+            className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition hover:bg-white/5 hover:text-red-400 cursor-pointer"
           >
             <LogOut size={17} />
           </button>
