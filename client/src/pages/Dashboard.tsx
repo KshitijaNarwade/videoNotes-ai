@@ -89,47 +89,6 @@ function Dashboard() {
 
   return (
     <main className="min-h-screen bg-[#070b14] text-white">
-      {/* ================= NAVBAR ================= */}
-
-      {/* <header className="sticky top-0 z-50 border-b border-white/[0.06] bg-[#070b14]/90 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 lg:px-8">
-          Logo
-          <Link to="/dashboard" className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-500/15 text-indigo-400 ring-1 ring-indigo-500/20">
-              <Sparkles size={18} />
-            </div>
-
-            <div>
-              <span className="font-semibold tracking-tight">VideoNotes</span>
-              <span className="ml-1.5 text-indigo-400">AI</span>
-            </div>
-          </Link>
-
-          Right side
-          <div className="flex items-center gap-4">
-            <div className="hidden text-right sm:block">
-              <p className="text-sm font-medium text-white">
-                {user.name || "User"}
-              </p>
-
-              <p className="text-xs text-slate-500">Personal workspace</p>
-            </div>
-
-            <div className="h-9 w-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-sm font-semibold">
-              {(user.name || "U").charAt(0).toUpperCase()}
-            </div>
-
-            <button
-              onClick={logout}
-              title="Logout"
-              className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition hover:bg-white/5 hover:text-red-400 cursor-pointer"
-            >
-              <LogOut size={17} />
-            </button>
-          </div>
-        </div>
-      </header> */}
-
       {/* ================= CONTENT ================= */}
 
       <section className="mx-auto max-w-7xl px-5 py-10 lg:px-8">
@@ -168,13 +127,33 @@ function Dashboard() {
                   className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"
                 />
 
-                <input
+                {/* <input
                   value={youtubeUrl}
                   onChange={(e) => setYoutubeUrl(e.target.value)}
                   placeholder="Paste a YouTube URL..."
                   className="h-13 w-full rounded-xl border border-white/[0.08] bg-black/20 pl-11 pr-4 text-sm text-white outline-none placeholder:text-slate-600 transition focus:border-indigo-500/60 focus:ring-4 focus:ring-indigo-500/10"
-                />
-
+                /> */}
+                <div className="animate-[pulse_2s_ease-in-out_infinite] rounded-xl">
+                  <input
+                    value={youtubeUrl}
+                    onChange={(e) => setYoutubeUrl(e.target.value)}
+                    placeholder="Paste a YouTube URL..."
+                    className="
+      h-13 w-full
+      rounded-xl
+      border border-indigo-500/50
+      bg-black/20
+      pl-11 pr-4
+      text-sm text-white
+      outline-none
+      placeholder:text-slate-600
+      transition
+      focus:border-indigo-500/60
+      focus:ring-4
+      focus:ring-indigo-500/10
+    "
+                  />
+                </div>
                 {youtubeUrl && (
                   <button
                     type="button"
@@ -189,7 +168,7 @@ function Dashboard() {
               <button
                 type="submit"
                 disabled={loading}
-                className="flex h-13 items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 text-sm font-semibold transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex h-13 items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 text-sm font-semibold transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
               >
                 <Sparkles size={17} />
 
