@@ -79,7 +79,7 @@ Important concepts extracted from the video are presented in a structured format
 
 Users can review important concepts using generated flashcards.
 
-![Flashcards](./docs/screenshots/flashcards.png)
+![Flashcards](./docs/screenshots/flashcard.png)
 
 ---
 
