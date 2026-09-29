@@ -327,8 +327,6 @@ export const processVideo = async (
 
       const analysis = await analyzeVideo(transcriptText, language);
 
-      console.log("Analysis by Gemini:", analysis);
-
       // Save successful result
       video.title = metadata.title;
       video.description = metadata.description;

@@ -82,7 +82,9 @@ function Dashboard() {
 
       <section className="mx-auto max-w-7xl px-5 py-10 lg:px-8">
         {/* ================= HERO ================= */}
-
+        <p className="px-6 text-yellow-500">
+          Please ensure the video duration does not exceed 30 minutes.
+        </p>
         <div className="relative overflow-hidden rounded-3xl border border-white/[0.07] bg-gradient-to-br from-indigo-500/[0.12] via-slate-900/80 to-purple-500/[0.06] p-7 sm:p-10">
           {/* Background glow */}
           <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-indigo-500/10 blur-3xl" />
