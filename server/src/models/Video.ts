@@ -19,7 +19,7 @@ export interface IChapter {
 export interface INote {
   title: string;
   content: string;
-  timestamp?: number;
+  timestamp?: number | undefined;
 }
 
 export interface IFlashcard {

@@ -4,6 +4,7 @@ import {
   getVideos,
   getVideoById,
   processVideo,
+  deleteVideo,
 } from "../controllers/video.controller.js";
 import { protect } from "../middleware/auth.middleware.js";
 
@@ -16,6 +17,8 @@ router.post("/", createVideo);
 router.get("/", getVideos);
 
 router.get("/:id", getVideoById);
+
+router.delete("/:id", deleteVideo);
 
 router.post("/:id/process", processVideo);
 

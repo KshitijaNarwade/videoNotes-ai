@@ -1,219 +1,931 @@
-# Video Notes AI
+# 🎥 VideoNotes AI
 
-An AI-powered web application that converts **YouTube videos into structured notes and study material**. It is designed for tutorials, lectures, podcasts, and educational content, helping users understand long videos faster.
+> **Turn YouTube videos into structured knowledge.**
 
-## ✨ Overview
+VideoNotes AI is an AI-powered learning application that transforms YouTube videos into structured study material.
 
-Video Notes AI accepts a YouTube video URL, retrieves the available transcript, processes the content using an AI model, and generates structured learning material.
+Instead of watching a long video and manually taking notes, users can provide a YouTube URL and generate:
 
-The generated output can include:
+- 📝 Summary
+- 📚 Structured Notes
+- 💡 Key Concepts
+- 🗂️ Chapters
+- 🧠 Flashcards
+- ❓ Quiz Questions
 
-- Video summary
-- Chapter-wise breakdown
-- Key concepts
-- Detailed notes
-- Important points
-- Flashcards
-
-The project follows a **TypeScript-based MERN architecture** with AI-powered content analysis.
-
-## 🚀 Key Features
-
-- YouTube video URL processing
-- Automatic transcript extraction
-- AI-powered video summarization
-- Structured notes generation
-- Chapter and topic extraction
-- Key concept identification
-- Flashcard generation
-- JWT-based authentication
-- REST API architecture
-- MongoDB data persistence
-- TypeScript across frontend and backend
-- Responsive React UI
-
-## 🛠️ Tech Stack
-
-### Frontend
-
-- React.js
-- TypeScript
-- Vite
-- Tailwind CSS
-
-### Backend
-
-- Node.js
-- Express.js
-- TypeScript
-- REST APIs
-- JWT Authentication
-
-### Database
-
-- MongoDB
-- Mongoose
-
-### AI & Processing
-
-- Gemini API
-- YouTube transcript extraction
-- Zod for structured AI response validation
-
-## 🏗️ Architecture
-
-```text
-User
-  ↓
-React + TypeScript Frontend
-  ↓
-Express REST API
-  ↓
-YouTube Transcript
-  ↓
-AI Processing
-  ↓
-Structured Analysis
-  ↓
-MongoDB
-  ↓
-Notes / Summary / Flashcards
-```
-
-## 📁 Project Structure
-
-```text
-video-note-ai/
-├── client/
-│   └── src/
-│       ├── components/
-│       ├── pages/
-│       ├── services/
-│       └── App.tsx
-│
-├── server/
-│   ├── config/
-│   ├── controllers/
-│   ├── models/
-│   ├── routes/
-│   ├── services/
-│   └── middleware/
-│
-└── README.md
-```
-
-## 🔐 Authentication
-
-The application uses **JWT-based authentication** to protect user-specific resources.
-
-```text
-Register / Login
-      ↓
-JWT Authentication
-      ↓
-Authenticated Request
-      ↓
-Protected API
-      ↓
-User-specific Video Notes
-```
-
-## 🧠 AI Processing Flow
-
-```text
-YouTube URL
-    ↓
-Transcript Extraction
-    ↓
-Transcript Processing
-    ↓
-AI Model
-    ↓
-Structured JSON Response
-    ↓
-Validation
-    ↓
-Save / Display Analysis
-```
-
-AI responses are validated using structured schemas before being consumed by the application.
-
-## ⚙️ Getting Started
-
-### Prerequisites
-
-- Node.js
-- npm
-- MongoDB
-- Gemini API key
-
-### Installation
-
-Install frontend dependencies:
-
-```bash
-cd client
-npm install
-```
-
-Install backend dependencies:
-
-```bash
-cd ../server
-npm install
-```
-
-Create a backend `.env` file:
-
-```env
-PORT=5000
-MONGODB_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
-GEMINI_API_KEY=your_gemini_api_key
-```
-
-Start the backend:
-
-```bash
-npm run dev
-```
-
-Start the frontend:
-
-```bash
-cd client
-npm run dev
-```
-
-## 🔮 Future Scope
-
-- Support for longer videos and large transcripts
-- Improved transcript chunking and processing
-- Better AI context management
-- PDF/export functionality
-- Search within generated notes
-- User history and saved analyses
-- Improved study and revision workflows
-- Production deployment and optimization
-
-## 👨‍💻 My Contribution
-
-I worked on the full-stack development of the application, including:
-
-- Building the React + TypeScript frontend
-- Developing Express.js REST APIs
-- Implementing JWT authentication
-- Integrating MongoDB with Mongoose
-- Integrating YouTube transcript extraction
-- Integrating the AI model for video analysis
-- Designing structured AI response schemas
-- Building the video analysis and notes workflow
-- Connecting frontend, backend, database, and AI services
-
-## 📌 Project Status
-
-The project is under active development and is being built as an AI-powered learning assistant for converting video content into structured study material.
+The application also provides a dedicated workspace where users can review and study the generated material.
 
 ---
 
-**Developer:** Kshitija Narwade
+## 📸 Screenshots
+
+### Dashboard
+
+The dashboard provides an overview of the user's videos, statistics, and a quick way to add a new YouTube video.
+
+![VideoNotes AI Dashboard](./docs/screenshots/dashboard.png)
+
+---
+
+### Notice
+
+The video library allows users to browse their previously added videos and check their processing status.
+
+![Video Library](./docs/screenshots/notice.png)
+
+---
+
+### Video Analysis Workspace
+
+After adding a video, users can select the analysis language and start the AI processing.
+
+![Video Analysis Workspace](./docs/screenshots/video-analysis.png)
+
+---
+
+### Summary
+
+The video library allows users to browse their previously added videos and check their processing status.
+
+![Video Library](./docs/screenshots/summary.png)
+
+---
+
+### Chapters
+
+The video library allows users to browse their previously added videos and check their processing status.
+
+![Video Library](./docs/screenshots/chapters.png)
+
+---
+
+### Generated Notes
+
+Once processing is completed, the application provides structured notes generated from the video.
+
+![Generated Notes](./docs/screenshots/notes.png)
+
+---
+
+### Key Concepts
+
+Important concepts extracted from the video are presented in a structured format.
+
+![Key Concepts](./docs/screenshots/key-concepts.png)
+
+---
+
+### Flashcards
+
+Users can review important concepts using generated flashcards.
+
+![Flashcards](./docs/screenshots/flashcards.png)
+
+---
+
+### Quiz
+
+The application generates questions based on the video content to help users test their understanding.
+
+![Quiz](./docs/screenshots/quiz.png)
+
+---
+
+## ✨ Features
+
+### 🎥 YouTube Video Processing
+
+Users can paste a YouTube URL and create a video analysis workspace.
+
+The application extracts the available transcript and uses it as the primary input for AI analysis.
+
+### 🤖 AI-Powered Analysis
+
+The application generates structured learning material including:
+
+- Summary
+- Chapters
+- Notes
+- Key Concepts
+- Flashcards
+- Quiz Questions
+
+### 🌍 Multi-Language Analysis
+
+Users can select the language in which the generated study material should be produced.
+
+### 🔐 Authentication
+
+The application uses JWT-based authentication to protect user data and video resources.
+
+### 👤 User-Specific Videos
+
+Each authenticated user can access only their own videos.
+
+### 🔄 Processing States
+
+Videos move through different processing states:
+
+```text
+PENDING
+   ↓
+PROCESSING
+   ↓
+COMPLETED
+   ↓
+FAILED
+```
+
+Users can retry a failed analysis without creating the video again.
+
+### 🗑️ Video Management
+
+Users can delete videos along with their associated generated study material.
+
+### ⚠️ AI Provider Error Handling
+
+AI processing depends on an external AI provider.
+
+Temporary provider failures, rate limits, or usage limits can cause analysis to fail.
+
+The application handles these errors on the server and displays user-friendly messages instead of exposing internal provider errors.
+
+# 🛠️ Tech Stack
+
+## Frontend
+
+| Technology   | Purpose                |
+| ------------ | ---------------------- |
+| React        | User interface         |
+| TypeScript   | Type safety            |
+| Vite         | Development/build tool |
+| Tailwind CSS | Styling                |
+| React Router | Client-side routing    |
+| Axios        | API communication      |
+| Lucide React | Icons                  |
+
+## Backend
+
+| Technology | Purpose                    |
+| ---------- | -------------------------- |
+| Node.js    | Runtime                    |
+| Express.js | REST API                   |
+| TypeScript | Type safety                |
+| MongoDB    | Database                   |
+| Mongoose   | MongoDB ODM                |
+| JWT        | Authentication             |
+| bcryptjs   | Password hashing           |
+| CORS       | Cross-origin communication |
+
+## AI / Data Processing
+
+| Technology                 | Purpose                |
+| -------------------------- | ---------------------- |
+| AI Provider                | Video content analysis |
+| YouTube Transcript Library | Transcript extraction  |
+| MongoDB                    | Persistent storage     |
+
+---
+
+# 🏗️ Application Architecture
+
+```text
+                        ┌─────────────────────┐
+                        │      User           │
+                        └──────────┬──────────┘
+                                   │
+                                   ▼
+                        ┌─────────────────────┐
+                        │   React + Vite      │
+                        │   TypeScript        │
+                        │   Tailwind CSS      │
+                        └──────────┬──────────┘
+                                   │
+                              REST API
+                                   │
+                                   ▼
+                        ┌─────────────────────┐
+                        │   Express Server    │
+                        │     Node.js         │
+                        └──────────┬──────────┘
+                                   │
+                 ┌─────────────────┼─────────────────┐
+                 │                 │                 │
+                 ▼                 ▼                 ▼
+        ┌───────────────┐  ┌──────────────┐  ┌──────────────┐
+        │ Authentication│  │   MongoDB    │  │ AI Provider  │
+        │     JWT       │  │  Mongoose    │  │              │
+        └───────────────┘  └──────────────┘  └──────┬───────┘
+                                                     │
+                                                     ▼
+                                           Generated Study Material
+                                                     │
+                         ┌───────────────────────────┼──────────────────────────┐
+                         │                           │                          │
+                         ▼                           ▼                          ▼
+                     Summary                      Notes                    Key Concepts
+                         │                           │                          │
+                         └───────────────────────────┼──────────────────────────┘
+                                                     │
+                                      ┌──────────────┴──────────────┐
+                                      ▼                             ▼
+                                  Flashcards                      Quiz
+```
+
+---
+
+# 🔄 Video Processing Flow
+
+When a user adds a YouTube video:
+
+```text
+User pastes YouTube URL
+          │
+          ▼
+POST /videos
+          │
+          ▼
+Create Video document
+          │
+          ▼
+Status = PENDING
+          │
+          ▼
+User opens Video Workspace
+          │
+          ▼
+User selects language
+          │
+          ▼
+Click "Analyze Video"
+          │
+          ▼
+Status = PROCESSING
+          │
+          ▼
+Fetch YouTube metadata
+          │
+          ▼
+Fetch transcript
+          │
+          ▼
+Send transcript to AI
+          │
+          ▼
+Generate structured analysis
+          │
+          ├───────────────┐
+          │               │
+          ▼               ▼
+       SUCCESS           ERROR
+          │               │
+          ▼               ▼
+Status = COMPLETED    Status = FAILED
+          │               │
+          ▼               ▼
+Save generated       Save friendly
+study material       error message
+```
+
+---
+
+# 📂 Project Structure
+
+```text
+videonotes-ai/
+│
+├── client/
+│   │
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Notice.tsx
+│   │   │   ├── LanguageSelect.tsx
+│   │   │   └── Navbar.tsx
+│   │   │
+│   │   ├── context/
+│   │   │   ├── NoticeContext.ts
+│   │   │   ├── NoticeProvider.tsx
+│   │   │   └── useNotice.ts
+│   │   │
+│   │   ├── pages/
+│   │   │   ├── Dashboard.tsx
+│   │   │   ├── Login.tsx
+│   │   │   ├── Register.tsx
+│   │   │   ├── VideoLibrary.tsx
+│   │   │   └── VideoWorkspace.tsx
+│   │   │
+│   │   ├── services/
+│   │   │   └── api.ts
+│   │   │
+│   │   ├── types/
+│   │   │   └── index.ts
+│   │   │
+│   │   ├── utils/
+│   │   │   └── languages.ts
+│   │   │
+│   │   ├── App.tsx
+│   │   └── main.tsx
+│   │
+│   ├── package.json
+│   └── ...
+│
+├── server/
+│   │
+│   ├── src/
+│   │   ├── config/
+│   │   │   └── db.ts
+│   │   │
+│   │   ├── controllers/
+│   │   │   ├── auth.controller.ts
+│   │   │   └── video.controller.ts
+│   │   │
+│   │   ├── middleware/
+│   │   │   └── auth.middleware.ts
+│   │   │
+│   │   ├── models/
+│   │   │   ├── User.ts
+│   │   │   └── Video.ts
+│   │   │
+│   │   ├── routes/
+│   │   │   ├── auth.routes.ts
+│   │   │   └── video.routes.ts
+│   │   │
+│   │   ├── services/
+│   │   │   ├── ai.service.ts
+│   │   │   ├── youtube.service.ts
+│   │   │
+│   │   │
+│   │   ├── utils/
+│   │   │   └── ...
+│   │   │
+│   │   └── server.ts
+│   │
+│   ├── package.json
+│   │
+│   └── ...
+│
+├── docs/
+│   └── screenshots/
+│       ├── home.png
+│       ├── login.png
+│       ├── register.png
+│       ├── dashboard.png
+│       ├── key-concepts.png
+│       ├── flashcards.png
+│       ├── quiz
+│       ├── notes.png
+|       ├── chapters.png
+|       └── summary.png
+|
+|
+├── .gitignore
+└── README.md
+```
+
+> The exact folder names may differ depending on your final project structure.
+
+---
+
+# 🔐 Authentication Flow
+
+VideoNotes AI uses JWT-based authentication.
+
+```text
+Register
+   │
+   ▼
+Password hashed using bcrypt
+   │
+   ▼
+User stored in MongoDB
+   │
+   ▼
+Login
+   │
+   ▼
+JWT generated
+   │
+   ▼
+Authentication cookie/token
+   │
+   ▼
+Protected API requests
+```
+
+Protected video operations verify the authenticated user before accessing the video.
+
+This ensures that users cannot access another user's videos by simply changing a video ID.
+
+---
+
+# 🗄️ Database
+
+The application uses MongoDB with Mongoose.
+
+## User
+
+The user collection stores authentication and profile information.
+
+```text
+User
+├── name
+├── email
+├── password
+└── timestamps
+```
+
+## Video
+
+The video collection stores the source video and generated learning material.
+
+```text
+Video
+├── userId
+├── youtubeUrl
+├── youtubeId
+├── title
+├── description
+├── thumbnailUrl
+├── duration
+├── status
+├── transcript
+├── summary
+├── chapters[]
+├── notes[]
+├── keyConcepts[]
+├── flashcards[]
+├── quiz[]
+├── references[]
+├── processingError
+└── timestamps
+```
+
+---
+
+# 🤖 AI Analysis
+
+The AI receives the extracted video transcript and generates structured learning material.
+
+Conceptually:
+
+```text
+YouTube Video
+      │
+      ▼
+Transcript
+      │
+      ▼
+AI Analysis
+      │
+      ▼
+Structured JSON
+      │
+      ├── Summary
+      ├── Chapters
+      ├── Notes
+      ├── Key Concepts
+      ├── Flashcards
+      └── Quiz
+```
+
+The backend validates and stores the generated result before it becomes available in the frontend.
+
+---
+
+# 🌍 Supported Languages
+
+The application supports multiple analysis languages through the language selector.
+
+The selected language is sent to the backend during the processing request:
+
+```text
+Frontend
+   │
+   │ { language: "en" }
+   ▼
+POST /videos/:id/process
+   │
+   ▼
+AI Analysis Service
+   │
+   ▼
+Generated content in selected language
+```
+
+---
+
+# 🔌 API Endpoints
+
+## Authentication
+
+### Register
+
+```http
+POST /auth/register
+```
+
+Creates a new user account.
+
+### Login
+
+```http
+POST /auth/login
+```
+
+Authenticates a user.
+
+### Logout
+
+```http
+POST /auth/logout
+```
+
+Logs the current user out.
+
+### Current User
+
+```http
+GET /auth/me
+```
+
+Returns the authenticated user's information.
+
+---
+
+## Videos
+
+### Create Video
+
+```http
+POST /videos
+```
+
+Creates a new video workspace.
+
+### Get Videos
+
+```http
+GET /videos
+```
+
+Returns videos belonging to the authenticated user.
+
+### Get Video
+
+```http
+GET /videos/:id
+```
+
+Returns a specific user's video.
+
+### Process Video
+
+```http
+POST /videos/:id/process
+```
+
+Starts AI processing.
+
+Example request:
+
+```json
+{
+  "language": "en"
+}
+```
+
+### Delete Video
+
+```http
+DELETE /videos/:id
+```
+
+Deletes the video and its generated study material.
+
+---
+
+# ⚠️ AI Provider Limitations
+
+VideoNotes AI relies on an external AI provider for generating study material.
+
+Therefore, AI processing can occasionally fail because of:
+
+- Temporary provider unavailability
+- Rate limits
+- Usage limits
+- Provider-side service interruptions
+
+The application handles these situations by:
+
+1. Marking the video as `FAILED`.
+2. Saving a user-friendly error message.
+3. Avoiding exposure of internal provider errors.
+4. Allowing the user to retry the analysis.
+
+For evaluation, a dedicated demo account can be provided with pre-tested videos.
+
+---
+
+# 🎓 Demo Account
+
+If you are evaluating the application and encounter an AI processing issue, use the dedicated demo account.
+
+```text
+Email:    kshitija@gmail.com
+Password: 123
+```
+
+The account contains pre-tested videos with generated:
+
+- Summary
+- Notes
+- Key Concepts
+- Flashcards
+- Quiz
+
+> **Important:** The demo credentials should be for a dedicated demo account only. Do not use personal or administrator credentials.
+
+---
+
+# ⚙️ Environment Variables
+
+## Backend
+
+Create:
+
+```text
+server/.env
+```
+
+Example:
+
+```env
+PORT=5000
+
+MONGODB_URI=your_mongodb_connection_string
+
+JWT_SECRET=your_jwt_secret
+
+FRONTEND_URL=http://localhost:5173
+
+AI_API_KEY=your_ai_api_key
+```
+
+Replace the values with your own credentials.
+
+**Never commit `.env` files or API keys to GitHub.**
+
+---
+
+## Frontend
+
+Create:
+
+```text
+client/.env
+```
+
+Example:
+
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+
+---
+
+# 🚀 Getting Started
+
+## 1. Clone the repository
+
+```bash
+git clone https://github.com/YOUR_USERNAME/videonotes-ai.git
+```
+
+```bash
+cd videonotes-ai
+```
+
+---
+
+## 2. Install frontend dependencies
+
+```bash
+cd client
+npm install
+```
+
+---
+
+## 3. Install backend dependencies
+
+Open another terminal:
+
+```bash
+cd server
+npm install
+```
+
+---
+
+## 4. Configure environment variables
+
+Create the required `.env` files.
+
+### Backend
+
+```text
+server/.env
+```
+
+### Frontend
+
+```text
+client/.env
+```
+
+---
+
+## 5. Start the backend
+
+```bash
+cd server
+npm run dev
+```
+
+The backend should start on:
+
+```text
+http://localhost:5000
+```
+
+---
+
+## 6. Start the frontend
+
+In another terminal:
+
+```bash
+cd client
+npm run dev
+```
+
+The frontend should be available at:
+
+```text
+http://localhost:5173
+```
+
+---
+
+# 🧪 Testing the Application
+
+Recommended testing flow:
+
+```text
+1. Register
+      ↓
+2. Login
+      ↓
+3. Open Dashboard
+      ↓
+4. Paste YouTube URL
+      ↓
+5. Click "Add Video"
+      ↓
+6. Select analysis language
+      ↓
+7. Click "Analyze Video"
+      ↓
+8. Wait for processing
+      ↓
+9. Explore generated material
+```
+
+After successful processing, verify:
+
+- Summary
+- Chapters
+- Notes
+- Key Concepts
+- Flashcards
+- Quiz
+
+Also test the failure flow:
+
+```text
+AI processing
+      ↓
+FAILED
+      ↓
+User-friendly error
+      ↓
+Try Again
+      ↓
+PROCESSING
+```
+
+---
+
+# 🎯 Project Goals
+
+The main goals of VideoNotes AI are:
+
+- Reduce the effort required to take notes from educational videos.
+- Convert unstructured video content into structured learning material.
+- Provide multiple study formats from the same source.
+- Make long educational videos easier to revise.
+- Demonstrate practical use of AI APIs in a full-stack application.
+
+---
+
+# 🔮 Future Improvements
+
+Potential future improvements include:
+
+- 💬 Chat with Video
+- 🔎 Semantic search
+- 🧠 Retrieval-Augmented Generation (RAG)
+- 📄 PDF/document analysis
+- 🎙️ Audio transcription
+- 📊 Learning progress tracking
+- 🔖 Bookmark important timestamps
+- 📱 Improved mobile experience
+- 🔄 Background job processing
+- ⚡ Redis/job queue integration
+- 📚 Multiple video collections
+- 👥 Shared study collections
+
+---
+
+# 🧠 What I Learned
+
+Building this project helped me work with:
+
+- React + TypeScript
+- Node.js + Express
+- MongoDB + Mongoose
+- REST API design
+- JWT authentication
+- Protected routes
+- Axios
+- External API integration
+- YouTube transcript extraction
+- AI API integration
+- Structured AI responses
+- Error handling
+- Async/background processing
+- State management
+- Responsive UI design
+- TypeScript interfaces and types
+
+---
+
+# 📌 Project Status
+
+**Current status:** MVP / Active Development
+
+The core workflow is implemented:
+
+```text
+Authentication              ✓
+YouTube URL input           ✓
+Video creation              ✓
+Transcript extraction       ✓
+AI analysis                 ✓
+Summary                     ✓
+Notes                       ✓
+Key Concepts                ✓
+Flashcards                  ✓
+Quiz                        ✓
+Video workspace             ✓
+Processing states           ✓
+Error handling              ✓
+Retry                       ✓
+Video deletion              ✓
+Demo account                ✓
+```
+
+Additional features such as RAG, chat with videos, and document analysis can be added in future iterations.
+
+---
+
+# 👨‍💻 Author
+
+**Your Name**
+
+Full Stack Developer
+
+### Technologies
+
+`React` · `TypeScript` · `Node.js` · `Express` · `MongoDB` · `Tailwind CSS` · `AI`
+
+### Connect
+
+- GitHub: `YOUR_GITHUB_URL`
+- LinkedIn: `YOUR_LINKEDIN_URL`
+
+---
+
+# ⭐ Support
+
+If you find this project useful, consider giving the repository a ⭐ on GitHub.

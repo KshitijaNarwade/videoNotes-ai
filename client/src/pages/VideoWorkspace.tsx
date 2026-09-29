@@ -12,6 +12,7 @@ import {
   Play,
   RefreshCw,
   Sparkles,
+  Trash2,
 } from "lucide-react";
 
 import api from "../services/api";
@@ -24,12 +25,14 @@ import Notes from "../components/video/Notes";
 import KeyConcepts from "../components/video/KeyConcepts";
 import Flashcards from "../components/video/Flashcards";
 import Quiz from "../components/video/Quiz";
+import { useNotice } from "../context/useNotice";
 
 type Tab = "overview" | "notes" | "concepts" | "flashcards" | "quiz";
 
 const VideoWorkspace = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { openNotice } = useNotice();
 
   // --------------------------------------------------
   // STATE
@@ -38,6 +41,8 @@ const VideoWorkspace = () => {
   const [video, setVideo] = useState<Video | null>(null);
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [error, setError] = useState(false);
 
   const [activeTab, setActiveTab] = useState<Tab>("overview");
 
@@ -46,7 +51,9 @@ const VideoWorkspace = () => {
   // --------------------------------------------------
   // FETCH VIDEO
   // --------------------------------------------------
-
+  useEffect(() => {
+    openNotice();
+  }, [error, openNotice]);
   const fetchVideo = useCallback(async () => {
     if (!id) return;
 
@@ -59,6 +66,7 @@ const VideoWorkspace = () => {
     } catch (error) {
       console.error("Failed to fetch video:", error);
       setVideo(null);
+      setError(true);
     } finally {
       setLoading(false);
     }
@@ -114,6 +122,28 @@ const VideoWorkspace = () => {
       }
     } finally {
       setProcessing(false);
+    }
+  };
+
+  // --------
+  const handleDelete = async () => {
+    if (!id || deleting) return;
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this video? This will also remove its generated study material.",
+    );
+    if (!confirmed) return;
+    try {
+      setDeleting(true);
+      await api.delete(`/videos/${id}`);
+      navigate("/videos");
+    } catch (error) {
+      console.error("Failed to delete video:", error);
+      if (isAxiosError(error)) {
+        console.error("Server error:", error.response?.data?.message);
+      }
+      window.alert("Failed to delete the video. Please try again.");
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -190,11 +220,11 @@ const VideoWorkspace = () => {
           </p>
 
           <button
-            onClick={() => navigate("/dashboard")}
-            className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-indigo-400 transition hover:text-indigo-300"
+            onClick={() => navigate(-1)}
+            className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-indigo-400 transition hover:text-indigo-300 cursor-pointer"
           >
-            <ArrowLeft size={16} />
-            Return to dashboard
+            <ArrowLeft size={20} />
+            Back
           </button>
         </div>
       </main>
@@ -222,11 +252,11 @@ const VideoWorkspace = () => {
 
       <div className="mx-auto max-w-7xl px-5 pt-5 lg:px-8">
         <button
-          onClick={() => navigate("/dashboard")}
-          className="flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-400 transition hover:text-white"
+          onClick={() => navigate(-1)}
+          className="flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-400 transition hover:text-white cursor-pointer"
         >
-          <ArrowLeft size={18} />
-          Dashboard
+          <ArrowLeft size={20} />
+          Back
         </button>
       </div>
 
@@ -258,15 +288,27 @@ const VideoWorkspace = () => {
             </span>
           </div>
 
-          <h1 className="max-w-4xl text-2xl font-bold leading-tight tracking-tight text-white md:text-3xl">
-            {video.title}
-          </h1>
+          <div className="flex items-start justify-between gap-5">
+            <h1 className="max-w-4xl text-2xl font-bold leading-tight tracking-tight text-white md:text-3xl">
+              {video.title}
+            </h1>
+
+            <button
+              onClick={handleDelete}
+              disabled={deleting}
+              title="Delete video"
+              className="flex shrink-0 items-center gap-2 rounded-lg border border-red-500/20 bg-red-500/10 px-3 py-2 text-sm font-medium text-red-400 transition hover:border-red-500/40 hover:bg-red-500/20 hover:text-red-300 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
+            >
+              <Trash2 size={16} />
+
+              {deleting ? "Deleting..." : "Delete"}
+            </button>
+          </div>
         </div>
 
         {/* =================================================
             VIDEO + STATUS
         ================================================= */}
-
         <div className="grid gap-6 lg:grid-cols-[1.6fr_0.8fr]">
           {/* =================================================
               YOUTUBE PLAYER
@@ -403,7 +445,7 @@ const VideoWorkspace = () => {
                 <button
                   onClick={handleProcess}
                   disabled={processing}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 font-semibold text-white transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 py-3 font-semibold text-white transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
                 >
                   <Play size={17} />
 
@@ -433,11 +475,9 @@ const VideoWorkspace = () => {
             )}
           </section>
         </div>
-
         {/* ==================================================
             LEARNING WORKSPACE
         ================================================== */}
-
         {isCompleted && (
           <section className="mt-10">
             {/* =================================================

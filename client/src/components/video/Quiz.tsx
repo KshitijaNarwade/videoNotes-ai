@@ -128,7 +128,7 @@ function Quiz({ quiz = [] }: QuizProps) {
 
           <div className="mb-7 flex items-end justify-between">
             <div>
-              <h2 className="text-2xl font-semibold text-slate-900">
+              <h2 className="text-2xl font-semibold text-slate-300">
                 Knowledge Quiz
               </h2>
 

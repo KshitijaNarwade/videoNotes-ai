@@ -1,8 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
-import { LogOut, Sparkles } from "lucide-react";
+import { LogOut, Sparkles, TriangleAlert } from "lucide-react";
+
+import { useNotice } from "../context/useNotice";
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const { openNotice } = useNotice();
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
@@ -31,6 +34,18 @@ export default function Navbar() {
 
         {/* Right side */}
         <div className="flex items-center gap-4">
+          {/* AI Notice */}
+          <button
+            type="button"
+            onClick={openNotice}
+            title="AI processing information"
+            aria-label="AI processing information"
+            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-amber-400 transition hover:bg-amber-500/10 hover:text-amber-300"
+          >
+            <TriangleAlert size={20} />
+          </button>
+
+          {/* User information */}
           <div className="hidden text-right sm:block">
             <p className="text-sm font-medium text-white">
               {user.name || "User"}
@@ -46,9 +61,11 @@ export default function Navbar() {
 
           {/* Logout */}
           <button
+            type="button"
             onClick={logout}
             title="Logout"
-            className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition hover:bg-white/5 hover:text-red-400 cursor-pointer"
+            aria-label="Logout"
+            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-slate-500 transition hover:bg-white/5 hover:text-red-400"
           >
             <LogOut size={17} />
           </button>

@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import { Video } from "../models/Video.js";
+import mongoose from "mongoose";
 import { Types } from "mongoose"; // this is used for the Types.ObjecId for the mongooose Id e.g userId:Types.objectId; (This is used to specify the userID is a special id created by the mongoose)
 
 import {
@@ -10,6 +11,7 @@ import {
 } from "../services/youtube.service.js";
 
 import { analyzeVideo } from "../services/ai.service.js";
+import { success } from "zod";
 
 export const createVideo = async (
   req: Request,
@@ -388,11 +390,99 @@ export const processVideo = async (
     }
   }
 };
+// export const getVideoById = async (
+//   req: Request,
+//   res: Response,
+// ): Promise<void> => {
+//   try {
+//     if (!req.user) {
+//       res.status(401).json({
+//         success: false,
+//         message: "Unauthorized",
+//       });
+//       return;
+//     }
+
+//     const video = await Video.findOne({
+//       _id: req.params.id,
+//       userId: req.user._id,
+//     });
+
+//     if (!video) {
+//       res.status(404).json({
+//         success: false,
+//         message: "Video not found",
+//       });
+//       return;
+//     }
+
+//     res.status(200).json({
+//       success: true,
+//       video,
+//     });
+//   } catch (error) {
+//     console.error(error);
+
+//     res.status(500).json({
+//       success: false,
+//       message: "Failed to fetch video",
+//     });
+//   }
+// };
+
 export const getVideoById = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
   try {
+    //1. Authentication
+    if (!req.user) {
+      res.status(401).json({ success: false, message: "Unauthorized" });
+      return;
+    }
+    // 2. Get video ID
+    const { id } = req.params;
+    // 3. Validate MongoDB ObjectId
+    if (!id || typeof id !== "string" || !Types.ObjectId.isValid(id)) {
+      res.status(400).json({
+        success: false,
+        message: "Invalid video ID",
+      });
+      return;
+    }
+    // 4. Find only the user's video
+    const video = await Video.findOne({
+      _id: id,
+      userId: req.user._id,
+    });
+    // 5. Video not found
+    if (!video) {
+      res.status(404).json({
+        success: false,
+        message: "Video not found",
+      });
+      return;
+    }
+    // 6 .Return video
+    res.status(200).json({
+      success: true,
+      video,
+    });
+  } catch (error) {
+    console.error("Failed to fetch video:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch video",
+    });
+  }
+};
+
+export const deleteVideo = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  try {
+    // 1. Check authentication FIRST
     if (!req.user) {
       res.status(401).json({
         success: false,
@@ -401,11 +491,25 @@ export const getVideoById = async (
       return;
     }
 
-    const video = await Video.findOne({
-      _id: req.params.id,
+    // After the return above, TypeScript knows req.user exists
+    const { id } = req.params;
+
+    // 2. Validate video ID
+    if (!id || typeof id !== "string" || !Types.ObjectId.isValid(id)) {
+      res.status(400).json({
+        success: false,
+        message: "Invalid video ID",
+      });
+      return;
+    }
+
+    // 3. Delete only the logged-in user's video
+    const video = await Video.findOneAndDelete({
+      _id: id,
       userId: req.user._id,
     });
 
+    // 4. Video doesn't exist or belongs to another user
     if (!video) {
       res.status(404).json({
         success: false,
@@ -414,16 +518,17 @@ export const getVideoById = async (
       return;
     }
 
+    // 5. Success
     res.status(200).json({
       success: true,
-      video,
+      message: "Video deleted successfully",
     });
   } catch (error) {
-    console.error(error);
+    console.error("Delete video error:", error);
 
     res.status(500).json({
       success: false,
-      message: "Failed to fetch video",
+      message: "Failed to delete video",
     });
   }
 };
