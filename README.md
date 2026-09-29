@@ -29,7 +29,7 @@ The dashboard provides an overview of the user's videos, statistics, and a quick
 
 ### Notice
 
-The video library allows users to browse their previously added videos and check their processing status.
+The Notice provided in case of failure of AI processing .
 
 ![Video Library](./docs/screenshots/notice.png)
 
@@ -45,7 +45,7 @@ After adding a video, users can select the analysis language and start the AI pr
 
 ### Summary
 
-The video library allows users to browse their previously added videos and check their processing status.
+The Summary provide the brief information about the given video.
 
 ![Video Library](./docs/screenshots/summary.png)
 
@@ -53,7 +53,7 @@ The video library allows users to browse their previously added videos and check
 
 ### Chapters
 
-The video library allows users to browse their previously added videos and check their processing status.
+The Chapters are listed according to the given timeStamp in the YouTube Video.
 
 ![Video Library](./docs/screenshots/chapters.png)
 
