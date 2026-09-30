@@ -911,7 +911,7 @@ Additional features such as RAG, chat with videos, and document analysis can be 
 
 # 👨‍💻 Author
 
-**Your Name**
+**Kshitija Yashwant Narwade**
 
 Full Stack Developer
 
@@ -919,12 +919,21 @@ Full Stack Developer
 
 `React` · `TypeScript` · `Node.js` · `Express` · `MongoDB` · `Tailwind CSS` · `AI`
 
-### Connect
+---
 
-- GitHub: `YOUR_GITHUB_URL`
-- LinkedIn: `YOUR_LINKEDIN_URL`
+### Project demo URL
+
+- GitHub: `(https://video-notes-ai-two.vercel.app/)`
 
 ---
+
+### Connect
+
+- GitHub: `(https://github.com/KshitijaNarwade/)`
+- LinkedIn: `(https://www.linkedin.com/in/kshitija-narwade-4941b0401)`
+
+---
+
 
 # ⭐ Support
 
