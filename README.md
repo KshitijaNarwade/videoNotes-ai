@@ -923,14 +923,14 @@ Full Stack Developer
 
 ### Project demo URL
 
-- GitHub: `(https://video-notes-ai-two.vercel.app/)`
+-[**Try VideoNotes AI →**](https://video-notes-ai-two.vercel.app/)
 
 ---
 
 ### Connect
 
-- GitHub: `(https://github.com/KshitijaNarwade/)`
-- LinkedIn: `(https://www.linkedin.com/in/kshitija-narwade-4941b0401)`
+[**GitHub →**](https://github.com/KshitijaNarwade/)
+[**LinkedIn →**](https://www.linkedin.com/in/kshitija-narwade-4941b0401/)
 
 ---
 
