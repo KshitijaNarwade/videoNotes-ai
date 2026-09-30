@@ -1,53 +1,48 @@
-import type { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
-import { User } from "../models/User.js";
+import { type Request, type Response, type NextFunction } from "express";
+import jwt, { type JwtPayload as JWTJwtPayload } from "jsonwebtoken";
+import mongoose from "mongoose";
 
-interface JwtPayload {
+interface AuthJwtPayload extends JWTJwtPayload {
   userId: string;
 }
 
-export const protect = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): Promise<void> => {
+export const protect = (req: Request, res: Response, next: NextFunction) => {
   try {
     const authHeader = req.headers.authorization;
 
-    if (!authHeader?.startsWith("Bearer ")) {
-      res.status(401).json({
-        success: false,
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({
         message: "Authentication required",
       });
-      return;
     }
 
     const token = authHeader.split(" ")[1];
 
+    if (!token) {
+      return res.status(401).json({
+        message: "Authentication token is missing",
+      });
+    }
+
     const secret = process.env.JWT_SECRET;
 
     if (!secret) {
-      throw new Error("JWT_SECRET is not configured");
-    }
+      console.error("JWT_SECRET is not configured");
 
-    const decoded = jwt.verify(token, secret) as JwtPayload;
-
-    const user = await User.findById(decoded.userId);
-
-    if (!user) {
-      res.status(401).json({
-        success: false,
-        message: "User not found",
+      return res.status(500).json({
+        message: "Server configuration error",
       });
-      return;
     }
 
-    req.user = user;
+    const decoded = jwt.verify(token, secret) as AuthJwtPayload;
+
+    req.user = {
+      _id: new mongoose.Types.ObjectId(decoded.userId),
+    };
 
     next();
-  } catch {
-    res.status(401).json({
-      success: false,
+  } catch (error) {
+    return res.status(401).json({
       message: "Invalid or expired token",
     });
   }

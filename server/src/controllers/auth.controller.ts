@@ -116,13 +116,40 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 };
 
 export const getMe = async (req: Request, res: Response): Promise<void> => {
-  res.status(200).json({
-    success: true,
-    user: {
-      id: req.user?._id,
-      name: req.user?.name,
-      email: req.user?.email,
-      avatar: req.user?.avatar,
-    },
-  });
+  try {
+    if (!req.user?._id) {
+      res.status(401).json({
+        success: false,
+        message: "Not authenticated",
+      });
+      return;
+    }
+
+    const user = await User.findById(req.user._id).select("-password");
+
+    if (!user) {
+      res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar,
+      },
+    });
+  } catch (error) {
+    console.error("Get current user error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch user",
+    });
+  }
 };
